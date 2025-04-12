@@ -57,6 +57,7 @@ export default function AppointmentPage() {
           onChange={handleChange}
           className="w-full bg-gray-100 rounded-xl px-4 py-3"
         />
+        <p className="text-gray-600 ml-5 text-sm">Date</p>
         <input
           type="date"
           name="date"
