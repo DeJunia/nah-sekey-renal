@@ -37,8 +37,20 @@ export const metadata: Metadata = {
     images: [
       {
         url: "../assets/images/img.jpg", // relative to public folder
-        width: 1200,
-        height: 630,
+        width: 500,
+        height: 500,
+        alt: "Nah-Sekey Renal Institute",
+      },
+      {
+        url: "../../public/img.jpg", // relative to public folder
+        width: 500,
+        height: 500,
+        alt: "Nah-Sekey Renal Institute",
+      },
+      {
+        url: "/img.jpg", // relative to public folder
+        width: 500,
+        height: 500,
         alt: "Nah-Sekey Renal Institute",
       },
     ],
