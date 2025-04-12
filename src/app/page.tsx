@@ -1,103 +1,260 @@
+"use client";
+import React, { useState, useRef, useEffect } from "react";
 import Image from "next/image";
+import { images } from "@/constants";
+import Link from "next/link";
+import { motion, useInView, useAnimation } from "framer-motion";
+
+const StatItem = ({ value, label }: { value: number; label: string }) => {
+  const [count, setCount] = useState(0);
+  const controls = useAnimation();
+
+  useEffect(() => {
+    const animateCount = async () => {
+      await controls.start({ opacity: 1 });
+      for (let i = 0; i <= value; i++) {
+        setCount(i);
+        await new Promise(resolve => setTimeout(resolve, 20));
+      }
+    };
+    
+    animateCount();
+  }, [value, controls]);
+
+  return (
+    <div className="text-center">
+      <motion.h3
+        className="text-3xl font-bold text-blue-900"
+        initial={{ opacity: 0 }}
+        animate={controls}
+      >
+        {count.toFixed(0)}
+        {label.includes("%") || label.includes("/") ? "" : "+"}
+      </motion.h3>
+      <p className="text-sm mt-1 text-blue-900">{label}</p>
+    </div>
+  );
+};
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-20% 0px" });
+  const [readyToAnimate, setReadyToAnimate] = useState(false);
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+  useEffect(() => {
+    if (isInView) setReadyToAnimate(true);
+  }, [isInView]);
+
+  
+
+  const data = [
+    {
+      id: "1",
+      image: images.img,
+      title: "Expert-Led Care",
+      contnet: "Led by Dr. Nah Sekey, a top nephrologist dedicated to excellence in kidney health.",
+    },
+    {
+      id: "2",
+      image: images.img1,
+      title: "Advanced Technology",
+      contnet: "Equipped with modern diagnostics and renal treatment tools for precise, effective care.",
+    },
+    {
+      id: "3",
+      image: images.img2,
+      title: "Personalized Treatment",
+      contnet: "Every patient receives a tailored plan, combining medical science with holistic support.",
+    },
+    {
+      id: "4",
+      image: images.img3,
+      title: "Patient-Centered Mission",
+      contnet: "We are committed to compassionate care, improving quality of life at every stage of kidney health.",
+    }
+  ]
+
+  return (
+    <div className="w-full flex flex-col">
+      <section className="h-[100vh] overflow-hidden relative" ref={ref}>
+        <Image
+          src={images.bg2}
+          className="w-full h-full object-cover"
+          alt="bg1"
+        />
+        <div className="absolute top-0 left-0 w-full h-full bg-black/20 flex flex-col items-center justify-center pt-30 pb-5">
+          <motion.h1
+            className="text-4xl sm:text-5xl md:text-6xl font-bold text-white text-center"
+            initial={{ x: -200, opacity: 0 }}
+            animate={readyToAnimate ? { x: 0, opacity: 1 } : {}}
+            transition={{ duration: 0.7, ease: [0.17, 0.55, 0.55, 1] }}
+            
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+            Nah-Sekey Renal Institute
+          </motion.h1>
+          <motion.p
+            className="text-sm sm:text-xl md:text-2xl mt-4  text-gray-200"
+            initial={{ x: -200, opacity: 0 }}
+            animate={readyToAnimate ? { x: 0, opacity: 1 } : {}}
+            transition={{ duration: 0.9, ease: [0.17, 0.55, 0.55, 1] }}
+            // style={{
+            //   transform: readyToAnimate ? "none" : "translateX(-200px)",
+            //   opacity: readyToAnimate ? 1 : 0,
+            //   transition:
+            //     "all 0.9s cubic-bezier(0.17, 0.55, 0.55, 1) 0.5s",
+            // }}
           >
-            Read our docs
-          </a>
+            Premium Kidney Care by Dr. Nah Sekey
+          </motion.p>
+          <Link
+            href="/appointment"
+            style={{
+              transform: readyToAnimate ? "none" : "translateX(-200px)",
+              opacity: readyToAnimate ? 1 : 0,
+              transition:
+                "all 0.9s cubic-bezier(0.17, 0.55, 0.55, 1) 0.5s",
+            }}
+          >
+            <motion.li
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+              transition={{ type: "spring", stiffness: 400, damping: 10 }}
+              className="text-lg sm:text-lg px-6 py-3 md:text-xl md:px-6 md:py-3 inline-block mt-4 sm:mt-6 md:mt-6 bg-white text-blue-900 font-semibold rounded-full hover:bg-gray-100 shadow-md"
+            >
+              Book Appointment
+            </motion.li>
+          </Link>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+      </section>
+      <section className="md:h-[100vh]">
+        <div className="max-w-6xl mx-auto text-center px-5 py-20 sm:py-30">
+          <h2 className="text-3xl md:text-4xl font-bold text-blue-900 mb-10">About Us</h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-4">
+              {
+                data.map((item, index) => (
+                  <div className=" border border-gray-200 rounded-2xl shadow-sm hover:shadow-md transition duration-300 overflow-hidden" key={index} >
+                    <Image src={item.image} alt="img" className="w-full h-40 object-cover"/>
+                    <div className="p-6">
+                      <h3 className="text-lg font-semibold text-blue-800 mb-2">{item.title}</h3>
+                      <p className="text-gray-600 text-sm">
+                        {item.contnet}
+                      </p>
+                    </div>              
+                  </div>
+                ))
+              }
+            </div>
+            <p className="mt-8 sm:mt-10 md:mt-14 text-gray-600 text-center">At Sekey Renal Institute, we are committed to delivering advanced, patient-centered care for kidney health. Led by renowned nephrologist Dr. Nah Sekey, our institute combines clinical expertise with state-of-the-art technology to ensure every patient receives the highest standard of diagnosis, treatment, and support. Your health is our priority always.</p>
+            <div className="mt-10">
+            <Link href="/about">
+              <button className="text-sm sm:text-base bg-blue-900 text-white font-medium px-6 py-3 rounded-full shadow hover:bg-blue-800 transition duration-300">
+                About Us
+              </button>
+            </Link>
+          </div>
+
+        </div>
+      </section>
+      <section className="bg-gray-50 py-16 px-6 md:px-20 lg:px-32">
+        <div className="max-w-6xl mx-auto text-center">
+          <h2 className="text-3xl md:text-4xl font-bold text-blue-900 mb-10">Our Services</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 text-left">
+            
+            <div className="p-6 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition duration-300">
+              <h3 className="text-xl font-semibold text-blue-800 mb-2">Kidney Disease Diagnosis</h3>
+              <p className="text-gray-600 text-sm">
+                Comprehensive evaluation of kidney function using the latest diagnostic tools and lab testing.
+              </p>
+            </div>
+
+            <div className="p-6 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition duration-300">
+              <h3 className="text-xl font-semibold text-blue-800 mb-2">Dialysis Services</h3>
+              <p className="text-gray-600 text-sm">
+                State-of-the-art hemodialysis and peritoneal dialysis therapies in a comfortable, safe environment.
+              </p>
+            </div>
+
+            <div className="p-6 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition duration-300">
+              <h3 className="text-xl font-semibold text-blue-800 mb-2">Chronic Kidney Care</h3>
+              <p className="text-gray-600 text-sm">
+                Personalized long-term care plans for patients managing chronic kidney disease (CKD).
+              </p>
+            </div>
+
+          </div>
+
+          <div className="mt-10">
+            <Link href="/serve">
+              <button className="text-sm sm:text-base bg-blue-900 text-white font-medium px-6 py-3 rounded-full shadow hover:bg-blue-800 transition duration-300">
+                View All Services
+              </button>
+            </Link>
+          </div>
+        </div>
+      </section>
+      <section className="bg-white py-20 px-6 md:px-20 lg:px-32">
+        <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-10">
+          <div className="w-full md:w-1/2 flex justify-center">
+            <Image
+              src={images.doc} // Replace with actual image
+              alt="Dr. Nah Sekey"
+              width={500}
+              height={500}
+              className="rounded-xl shadow-md object-cover"
+            />
+          </div>
+          <div className="w-full md:w-1/2">
+            <h2 className="text-3xl font-bold text-blue-900 mb-4 text-center">Meet Dr. Nah Sekey</h2>
+            <p className="text-gray-700 text-lg leading-relaxed text-center">
+              Dr. Nah Sekey is a renowned nephrologist with over 15 years of experience in kidney care and internal medicine. His passion for personalized treatment and dedication to patient wellbeing led him to found the Nah-Sekey Renal Institute — a clinic built on trust, innovation, and excellence in kidney health.
+            </p>
+            <p className="text-gray-700 mt-4 text-sm italic">
+            &ldquo;I believe in delivering care that sees the whole person - not just the disease.&rdquo;
+            </p>
+          </div>
+        </div>
+      </section>
+      <section className="bg-gray-50 py-20 px-6 md:px-20 lg:px-32">
+        <div className="max-w-6xl mx-auto text-center">
+          <h2 className="text-3xl font-bold text-blue-900 mb-10">What Our Patients Say</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-10 text-left">
+            <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+              <p className="text-gray-700 italic mb-3">&ldquo;The level of care and attention I received was unmatched. Dr. Sekey truly cares about his patients.&rdquo;</p>
+              <p className="font-semibold text-blue-800">- Michael A.</p>
+            </div>
+            <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+              <p className="text-gray-700 italic mb-3">&ldquo;I was nervous about dialysis, but this clinic made it feel manageable and safe. So grateful!&rdquo;</p>
+              <p className="font-semibold text-blue-800">- Grace O.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section className="bg-white py-20 px-6 md:px-20 lg:px-32">
+        <div className="max-w-6xl mx-auto text-center">
+          <h2 className="text-3xl font-bold text-blue-900 mb-10">Our Impact</h2>
+          <div className="max-w-5xl mx-auto grid grid-cols-2 sm:grid-cols-4 gap-8">
+              <StatItem value={15} label="Years of Experience" />
+              <StatItem value={500} label="Patients Treated" />
+              <StatItem value={98} label="Patient Satisfaction" />
+              <StatItem value={24} label="Support Available (hrs)" />
+            </div>
+      </div>
+      </section>
+      <section className="bg-blue-900 py-20 px-6 md:px-20 lg:px-32 text-white ">
+        <div className="max-w-4xl mx-auto text-center">
+          <h2 className="text-3xl md:text-4xl font-bold mb-6">Ready to Take Control of Your Kidney Health?</h2>
+          <p className="text-lg mb-8">Book a consultation today and experience world-class care tailored to you.</p>
+          <Link href="/appointment">
+            <button className="bg-white text-blue-900 font-semibold px-6 py-3 rounded-full shadow hover:bg-gray-100 transition">
+              Book Appointment
+            </button>
+          </Link>
+        </div>
+      </section>
+      <section className="bg-blue-900 text-white py-16 px-6 md:px-20 lg:px-32">
+            
+    </section>
+
     </div>
   );
 }
