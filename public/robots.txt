@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://nahsekey-renal-care.vercel.app
+
+# Sitemaps
+Sitemap: https://nahsekey-renal-care.vercel.app/sitemap.xml
