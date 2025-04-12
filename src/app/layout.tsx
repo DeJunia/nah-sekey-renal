@@ -60,6 +60,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <meta name="google-site-verification" content="y55MTSoIa-KHUFqwzzB2jiYH7lkAR50cMWoIiennuTY" />
+      </head>
       <body
         className={`${inter.className} antialiased root relative`}
       >
