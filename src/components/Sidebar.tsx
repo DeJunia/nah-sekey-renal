@@ -61,7 +61,7 @@ const Sidebar = () => {
         initial={false}
         animate={isOpen ? "open" : "closed"}
         onAnimationComplete={handleAnimationComplete}
-        className="absolute top-0 right-0 bottom-0 w-[300px] bg-white p-6"
+        className="absolute top-0 right-0 bottom-0 w-[300px] bg-white/70 backdrop-blur-md backdrop-brightness-100 backdrop-contrast-100 backdrop-grayscale-0 backdrop-invert-0 backdrop-sepia-0 backdrop-hue-rotate-0 backdrop-saturate-100 backdrop-screen"
       >
         <Navigation />
       </motion.div>

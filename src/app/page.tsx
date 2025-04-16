@@ -4,6 +4,7 @@ import Image from "next/image";
 import { images } from "@/constants";
 import Link from "next/link";
 import { motion, useInView, useAnimation } from "framer-motion";
+import ScrollAnimation from "@/components/scrollAnimations";
 
 const StatItem = ({ value, label }: { value: number; label: string }) => {
   const [count, setCount] = useState(0);
@@ -82,7 +83,7 @@ export default function Home() {
           className="w-full h-full object-cover"
           alt="bg1"
         />
-        <div className="absolute top-0 left-0 w-full h-full bg-black/20 flex flex-col items-center justify-center pt-30 pb-5">
+        <div className="absolute top-0 left-0 w-full h-full bg-black/30 flex flex-col items-center justify-center pt-30 pb-5">
           <motion.h1
             className="text-4xl sm:text-5xl md:text-6xl font-bold text-white text-center"
             initial={{ x: -200, opacity: 0 }}
@@ -90,7 +91,7 @@ export default function Home() {
             transition={{ duration: 0.7, ease: [0.17, 0.55, 0.55, 1] }}
             
           >
-            Nah-Sekey Renal Institute
+            Your Dialysis Partner
           </motion.h1>
           <motion.p
             className="text-sm sm:text-xl md:text-2xl mt-4  text-gray-200"
@@ -104,7 +105,7 @@ export default function Home() {
             //     "all 0.9s cubic-bezier(0.17, 0.55, 0.55, 1) 0.5s",
             // }}
           >
-            Premium Kidney Care by Dr. Nah Sekey
+            Premium Kidney Care by Amarobby Clinic.
           </motion.p>
           <Link
             href="/appointment"
@@ -119,16 +120,113 @@ export default function Home() {
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
               transition={{ type: "spring", stiffness: 400, damping: 10 }}
-              className="text-lg sm:text-lg px-6 py-3 md:text-xl md:px-6 md:py-3 inline-block mt-4 sm:mt-6 md:mt-6 bg-white text-blue-900 font-semibold rounded-full hover:bg-gray-100 shadow-md"
+              className="text-lg sm:text-lg px-6 py-3 md:text-xl md:px-6 md:py-3 inline-block mt-4 sm:mt-6 md:mt-6 bg-white text-primary font-semibold rounded-2xl hover:bg-gray-100 shadow-md"
             >
               Book Appointment
             </motion.li>
           </Link>
         </div>
       </section>
-      <section className="md:h-[100vh]">
-        <div className="max-w-6xl mx-auto text-center px-5 py-20 sm:py-30">
-          <h2 className="text-3xl md:text-4xl font-bold text-blue-900 mb-10">About Us</h2>
+      <section className="">
+        <div className="relative max-w-6xl mx-auto text-center px-0 md:px-5 mdCombo mt-24">
+        <video
+          src="https://ghana.sahelhealth.com/images/videos/sahel-video.mp4"
+          className="w-full object-cover md:rounded-2xl"
+          autoPlay
+          loop
+          muted
+          playsInline
+        />
+        <div className="absolute top-0 left-0 z-1 w-full h-full md:px-5">
+            <div className="bg-black/40 w-full h-full md:rounded-2xl">
+
+            </div>
+        </div>
+        <div className="absolute z-2 top-0 left-0 w-full flex justify-center">
+          <div className="bg-white px-5 py-2 text-xl font-bold text-primary rounded-b-xl">
+            OUR COMPANY
+          </div>
+        </div>
+
+        <div className="absolute z-2 bottom-0 left-0 p-5 pl-5 md:pl-10 ">
+          <ScrollAnimation animation="slideLeft" delay={500} distance={400} duration={2} >
+            <div className="text-start">
+            <p className="text-white">Welcome to</p>
+            <p className="text-2xl font-bold text-primary">Amarobby Clinic</p>
+            <p className="text-white max-w-100 text-sm">Ammarobby Renal Ghana Limited is a partnership between Sahel Health LLC, based in New York, and a local entrepreneur, Richard S. A. Arkutu, aimed at improving the private renal care sector in Ghana. </p>
+            <Link
+            href="/appointment"
+            
+          >
+            <motion.li
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+              transition={{ type: "spring", stiffness: 400, damping: 10 }}
+              className="text-lg sm:text-lg px-6 mt-2 py-3 md:text-xl md:px-6 md:py-3 inline-block bg-white text-primary font-semibold rounded-2xl hover:bg-gray-100 shadow-md"
+            >
+              Read more
+            </motion.li>
+          </Link>
+
+            </div>
+            
+          </ScrollAnimation>
+          
+        </div>
+        </div>
+        <div className="relative max-w-6xl mx-auto text-center px-10 ">
+            <ScrollAnimation animation="slideUp" delay={600} distance={600} duration={3}>
+            <div className="w-full h-20 bg-primary mt-10 rounded-2xl">
+              
+            </div>
+            </ScrollAnimation>
+          </div>
+        <div className="relative max-w-6xl mx-auto text-center px-0 md:px-5 smCombo flex-col mt-12">
+        <div className=" z-2 top-0 left-0 w-full flex justify-center">
+          <div className="bg-white px-5 py-2 text-xl font-bold text-primary rounded-b-xl">
+            OUR COMPANY
+          </div>
+        </div>
+        <ScrollAnimation animation="slideRight" delay={600} distance={600} duration={3}>
+        <video
+          src="https://ghana.sahelhealth.com/images/videos/sahel-video.mp4"
+          className="w-full object-cover rounded-t-xl md:rounded-2xl"
+          autoPlay
+          loop
+          muted
+          playsInline
+        />
+        </ScrollAnimation>
+        
+        
+        
+
+        <div className=" z-2 bottom-0 left-0 p-5 pl-5 md:pl-10">
+          <ScrollAnimation animation="slideLeft" delay={500} distance={400} duration={2} >
+            <div className="text-start">
+            <p className="text-black">Welcome to</p>
+            <p className="text-2xl font-bold text-primary">Amarobby Clinic</p>
+            <p className="text-black max-w-100 text-sm">Ammarobby Renal Ghana Limited is a partnership between Sahel Health LLC, based in New York, and a local entrepreneur, Richard S. A. Arkutu, aimed at improving the private renal care sector in Ghana. </p>
+            <Link
+            href="/appointment"
+            
+          >
+            <motion.li
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+              transition={{ type: "spring", stiffness: 400, damping: 10 }}
+              className="text-lg sm:text-lg px-6 mt-2 py-3 md:text-xl md:px-6 md:py-3 inline-block bg-white text-primary font-semibold rounded-2xl hover:bg-gray-100 shadow-md"
+            >
+              Read more
+            </motion.li>
+          </Link>
+
+            </div>
+            
+          </ScrollAnimation>
+          
+        </div>
+          {/* <h2 className="text-3xl md:text-4xl font-bold text-primary mb-10">OUR COMPANY</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-4">
               {
                 data.map((item, index) => (
@@ -151,9 +249,10 @@ export default function Home() {
                 About Us
               </button>
             </Link>
-          </div>
+          </div> */}
 
         </div>
+          
       </section>
       <section className="bg-gray-50 py-16 px-6 md:px-20 lg:px-32">
         <div className="max-w-6xl mx-auto text-center">
@@ -251,10 +350,8 @@ export default function Home() {
           </Link>
         </div>
       </section>
-      <section className="bg-blue-900 text-white py-16 px-6 md:px-20 lg:px-32">
-            
-    </section>
-
+      <section className="bg-blue-900 text-white py-16 px-6 md:px-20 lg:px-32">         
+      </section>
     </div>
   );
 }

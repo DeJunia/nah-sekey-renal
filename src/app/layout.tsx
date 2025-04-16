@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import { Header, Sidebar, LogoItem, Footer } from "@/components";
+import { Header, Sidebar, LogoItem, Footer, HeaderBg } from "@/components";
 import "./globals.css";
 
 const inter = Inter({
@@ -79,6 +79,7 @@ export default function RootLayout({
         className={`${inter.className} antialiased root relative`}
       >
         <Header />
+        <HeaderBg />
         <Sidebar />
         <LogoItem />
         {children}
