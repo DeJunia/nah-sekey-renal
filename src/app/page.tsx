@@ -76,7 +76,7 @@ export default function Home() {
   ]
 
   return (
-    <div className="w-full flex flex-col">
+    <div className="w-full max-w-full flex flex-col overflow-x-hidden">
       <section className="h-[100vh] overflow-hidden relative" ref={ref}>
         <Image
           src={images.bg2}
@@ -174,18 +174,18 @@ export default function Home() {
           
         </div>
         </div>
-        <div className="relative max-w-6xl mx-auto text-center px-10 ">
+        <div className="relative max-w-6xl mx-auto text-center px-5 mt-12 ">
+          <div className="bg-white py-2 text-xl font-bold text-primary rounded-b-xl smCombo">
+            OUR COMPANY
+          </div>
             <ScrollAnimation animation="slideUp" delay={600} distance={600} duration={3}>
-            <div className="w-full h-20 bg-primary mt-10 rounded-2xl">
-              
+            <div className="w-full h-20 bg-primary mt-6 rounded-2xl">            
             </div>
             </ScrollAnimation>
           </div>
-        <div className="relative max-w-6xl mx-auto text-center px-0 md:px-5 smCombo flex-col mt-12">
+        <div className="relative max-w-6xl mx-auto text-center px-0 md:px-5 smCombo flex-col mt-5">
         <div className=" z-2 top-0 left-0 w-full flex justify-center">
-          <div className="bg-white px-5 py-2 text-xl font-bold text-primary rounded-b-xl">
-            OUR COMPANY
-          </div>
+          
         </div>
         <ScrollAnimation animation="slideRight" delay={600} distance={600} duration={3}>
         <video
@@ -252,7 +252,7 @@ export default function Home() {
           </div> */}
 
         </div>
-          
+         
       </section>
       <section className="bg-gray-50 py-16 px-6 md:px-20 lg:px-32">
         <div className="max-w-6xl mx-auto text-center">
