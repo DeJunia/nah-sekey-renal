@@ -5,37 +5,53 @@ import { images } from "@/constants";
 import Link from "next/link";
 import { motion, useInView, useAnimation } from "framer-motion";
 import ScrollAnimation from "@/components/scrollAnimations";
+import { FaBuilding } from "react-icons/fa6";
+import { BsMicrosoftTeams } from "react-icons/bs";
+import { GiTeamIdea } from "react-icons/gi";
+import { FaEarthAfrica } from "react-icons/fa6";
+import { FaArrowRight } from "react-icons/fa6";
 
-const StatItem = ({ value, label }: { value: number; label: string }) => {
+type StatItemProps = {
+  value: number;
+  label: string;
+};
+
+const StatItem = ({ value, label }: StatItemProps) => {
   const [count, setCount] = useState(0);
   const controls = useAnimation();
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: "0px 0px -100px 0px" });
 
   useEffect(() => {
     const animateCount = async () => {
       await controls.start({ opacity: 1 });
+
       for (let i = 0; i <= value; i++) {
         setCount(i);
         await new Promise(resolve => setTimeout(resolve, 20));
       }
     };
-    
-    animateCount();
-  }, [value, controls]);
+
+    if (inView) {
+      animateCount();
+    }
+  }, [inView, value, controls]);
 
   return (
-    <div className="text-center">
+    <div ref={ref} className="text-center">
       <motion.h3
-        className="text-3xl font-bold text-blue-900"
+        className="text-3xl font-bold text-primary"
         initial={{ opacity: 0 }}
         animate={controls}
       >
         {count.toFixed(0)}
         {label.includes("%") || label.includes("/") ? "" : "+"}
       </motion.h3>
-      <p className="text-sm mt-1 text-blue-900">{label}</p>
+      <p className="text-sm mt-1 text-primary">{label}</p>
     </div>
   );
 };
+
 
 export default function Home() {
   const ref = useRef(null);
@@ -51,28 +67,51 @@ export default function Home() {
   const data = [
     {
       id: "1",
-      image: images.img,
-      title: "Expert-Led Care",
-      contnet: "Led by Dr. Nah Sekey, a top nephrologist dedicated to excellence in kidney health.",
+      image: FaBuilding,
+      title: "Ultra Modern Dialysis Facility",
     },
     {
       id: "2",
-      image: images.img1,
-      title: "Advanced Technology",
-      contnet: "Equipped with modern diagnostics and renal treatment tools for precise, effective care.",
+      image: BsMicrosoftTeams,
+      title: "Best Clinical Care",
     },
     {
       id: "3",
-      image: images.img2,
-      title: "Personalized Treatment",
-      contnet: "Every patient receives a tailored plan, combining medical science with holistic support.",
+      image: FaEarthAfrica,
+      title: "International / U.S. Standard Care",
     },
     {
       id: "4",
-      image: images.img3,
-      title: "Patient-Centered Mission",
-      contnet: "We are committed to compassionate care, improving quality of life at every stage of kidney health.",
+      image: GiTeamIdea,
+      title: "Top Nephrologists supporting Sahel",
     }
+  ]
+
+  const services = [
+    {
+      id: "1",
+      image: images.imgd1,
+      title: "Hemodialysis Treatment",
+      href: "/serve"
+    },
+    {
+      id: "2",
+      image: images.imgd4,
+      title: "CKD Clinic",
+      href: "/serve/treat1"
+    },
+    {
+      id: "3",
+      image: images.imgd3,
+      title: "Access Surgical and Procedures",
+      href: "/serve/treat2"
+    },
+    {
+      id: "4",
+      image: images.imgd2,
+      title: "Kidney Transplant",
+      href: "/serve/treat3"
+    },
   ]
 
   return (
@@ -85,7 +124,7 @@ export default function Home() {
         />
         <div className="absolute top-0 left-0 w-full h-full bg-black/30 flex flex-col items-center justify-center pt-30 pb-5">
           <motion.h1
-            className="text-4xl sm:text-5xl md:text-6xl font-bold text-white text-center"
+            className="text-3xl sm:text-5xl md:text-6xl font-bold text-white text-center"
             initial={{ x: -200, opacity: 0 }}
             animate={readyToAnimate ? { x: 0, opacity: 1 } : {}}
             transition={{ duration: 0.7, ease: [0.17, 0.55, 0.55, 1] }}
@@ -120,7 +159,7 @@ export default function Home() {
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
               transition={{ type: "spring", stiffness: 400, damping: 10 }}
-              className="text-lg sm:text-lg px-6 py-3 md:text-xl md:px-6 md:py-3 inline-block mt-4 sm:mt-6 md:mt-6 bg-white text-primary font-semibold rounded-2xl hover:bg-gray-100 shadow-md"
+              className="text-lg sm:text-lg px-6 py-3 md:text-xl md:px-6 md:py-3 inline-block mt-4 sm:mt-6 md:mt-6 bg-white text-primary font-semibold rounded-full hover:bg-gray-100 shadow-md"
             >
               Book Appointment
             </motion.li>
@@ -149,7 +188,7 @@ export default function Home() {
         </div>
 
         <div className="absolute z-2 bottom-0 left-0 p-5 pl-5 md:pl-10 ">
-          <ScrollAnimation animation="slideLeft" delay={500} distance={400} duration={2} >
+          <ScrollAnimation animation="slideLeft" delay={100} distance={300} duration={2}>
             <div className="text-start">
             <p className="text-white">Welcome to</p>
             <p className="text-2xl font-bold text-primary">Amarobby Clinic</p>
@@ -175,34 +214,46 @@ export default function Home() {
         </div>
         </div>
         <div className="relative max-w-6xl mx-auto text-center px-5 mt-12 ">
+          <ScrollAnimation animation="slideRight" delay={10} distance={300} duration={2}>
           <div className="bg-white py-2 text-xl font-bold text-primary rounded-b-xl smCombo">
             OUR COMPANY
           </div>
-            <ScrollAnimation animation="slideUp" delay={600} distance={600} duration={3}>
-            <div className="w-full h-20 bg-primary mt-6 rounded-2xl">            
-            </div>
+          </ScrollAnimation>
+          
+          <div className="sm:px-5">
+            <ScrollAnimation animation="slideUp" delay={10} distance={300} duration={2}>
+              <div className="w-full bg-primary mt-6 rounded-2xl p-5">   
+                <h1 className="text-xl font-bold text-white">The <span className="text-black">Amarobby</span> Advantage</h1>
+
+                <div className="grid grid-cols-2 gap-4 md:grid-cols-4 mt-6 sm:mt-4">
+                  {
+                    data.map((item) => (
+                      <div key={item.id} className="w-full hover:scale-105 transition-all duration-300 ease-in-out rounded-2xl sm:p-3">
+                        <div className="flex flex-col justify-start items-center h-full gap-3">
+                          <item.image className="text-6xl text-white" />
+                          <p className="text-white text-clamp-2 ellipsis">{item.title}</p>
+                        </div>
+                      </div>
+                    ))
+                  }
+                </div>         
+              </div>
             </ScrollAnimation>
           </div>
+          </div>
         <div className="relative max-w-6xl mx-auto text-center px-0 md:px-5 smCombo flex-col mt-5">
-        <div className=" z-2 top-0 left-0 w-full flex justify-center">
-          
-        </div>
-        <ScrollAnimation animation="slideRight" delay={600} distance={600} duration={3}>
-        <video
-          src="https://ghana.sahelhealth.com/images/videos/sahel-video.mp4"
-          className="w-full object-cover rounded-t-xl md:rounded-2xl"
-          autoPlay
-          loop
-          muted
-          playsInline
-        />
+        <ScrollAnimation animation="slideRight" delay={100} distance={200} duration={2}>
+          <video
+            src="https://ghana.sahelhealth.com/images/videos/sahel-video.mp4"
+            className="w-full object-cover md:rounded-2xl"
+            autoPlay
+            loop
+            muted
+            playsInline
+          />
         </ScrollAnimation>
-        
-        
-        
-
         <div className=" z-2 bottom-0 left-0 p-5 pl-5 md:pl-10">
-          <ScrollAnimation animation="slideLeft" delay={500} distance={400} duration={2} >
+          <ScrollAnimation animation="slideLeft" delay={10} distance={200} duration={2} threshold={0.3}>
             <div className="text-start">
             <p className="text-black">Welcome to</p>
             <p className="text-2xl font-bold text-primary">Amarobby Clinic</p>
@@ -226,93 +277,55 @@ export default function Home() {
           </ScrollAnimation>
           
         </div>
-          {/* <h2 className="text-3xl md:text-4xl font-bold text-primary mb-10">OUR COMPANY</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-4">
-              {
-                data.map((item, index) => (
-                  <div className=" border border-gray-200 rounded-2xl shadow-sm hover:shadow-md transition duration-300 overflow-hidden" key={index} >
-                    <Image src={item.image} alt="img" className="w-full h-40 object-cover"/>
-                    <div className="p-6">
-                      <h3 className="text-lg font-semibold text-blue-800 mb-2">{item.title}</h3>
-                      <p className="text-gray-600 text-sm">
-                        {item.contnet}
-                      </p>
-                    </div>              
-                  </div>
-                ))
-              }
-            </div>
-            <p className="mt-8 sm:mt-10 md:mt-14 text-gray-600 text-center">At Sekey Renal Institute, we are committed to delivering advanced, patient-centered care for kidney health. Led by renowned nephrologist Dr. Nah Sekey, our institute combines clinical expertise with state-of-the-art technology to ensure every patient receives the highest standard of diagnosis, treatment, and support. Your health is our priority always.</p>
-            <div className="mt-10">
-            <Link href="/about">
-              <button className="text-sm sm:text-base bg-blue-900 text-white font-medium px-6 py-3 rounded-full shadow hover:bg-blue-800 transition duration-300">
-                About Us
-              </button>
-            </Link>
-          </div> */}
-
         </div>
          
       </section>
       <section className="bg-gray-50 py-16 px-6 md:px-20 lg:px-32">
         <div className="max-w-6xl mx-auto text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-blue-900 mb-10">Our Services</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 text-left">
-            
-            <div className="p-6 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition duration-300">
-              <h3 className="text-xl font-semibold text-blue-800 mb-2">Kidney Disease Diagnosis</h3>
-              <p className="text-gray-600 text-sm">
-                Comprehensive evaluation of kidney function using the latest diagnostic tools and lab testing.
-              </p>
-            </div>
+          <div className="flex flex-col justify-center items-center gap-5">
+            <p className="text-sm">What we do</p>
+            <h2 className="text-3xl md:text-4xl font-bold text-primary ">Our Services</h2>
+            <hr className="w-36 h-0.5 mx-auto bg-primary border-0 rounded"/>
+          </div>
+          
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 text-left mt-12 px-5 md:px-0">
 
-            <div className="p-6 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition duration-300">
-              <h3 className="text-xl font-semibold text-blue-800 mb-2">Dialysis Services</h3>
-              <p className="text-gray-600 text-sm">
-                State-of-the-art hemodialysis and peritoneal dialysis therapies in a comfortable, safe environment.
-              </p>
-            </div>
-
-            <div className="p-6 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition duration-300">
-              <h3 className="text-xl font-semibold text-blue-800 mb-2">Chronic Kidney Care</h3>
-              <p className="text-gray-600 text-sm">
-                Personalized long-term care plans for patients managing chronic kidney disease (CKD).
-              </p>
-            </div>
+            {
+              services.map((item, index) => (
+                <ScrollAnimation key={item.id} animation="slideUp" delay={0.5} distance={100} duration={2}>
+                <div className="relative group w-full aspect-square md:aspect-9/12  rounded-2xl overflow-hidden ">
+                  <Image src={item.image} alt={item.title} className="w-full h-full object-cover rounded-2xl  group-hover:scale-105 transition-all duration-700 ease-in-out" />
+                  <div className="absolute bottom-0 left-0 bg-gradient-to-b from-cyan-500/10 to-primary/90 w-full h-full">
+                    <Link href={item.href} >
+                    <li className="h-full w-full flex flex-col justify-end p-5 group-hover:scale-80 transition-all duration-700 ease-in-out">
+                    <h3 className="text-xl font-semibold text-white mb-2">{item.title}</h3>
+                    <FaArrowRight className="text-white size-6"/>
+                    </li>
+                    </Link>
+                  </div>
+                  
+                </div>
+                </ScrollAnimation>
+              ))
+            }
 
           </div>
 
-          <div className="mt-10">
-            <Link href="/serve">
-              <button className="text-sm sm:text-base bg-blue-900 text-white font-medium px-6 py-3 rounded-full shadow hover:bg-blue-800 transition duration-300">
-                View All Services
-              </button>
-            </Link>
-          </div>
+          
         </div>
       </section>
       <section className="bg-white py-20 px-6 md:px-20 lg:px-32">
-        <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-10">
-          <div className="w-full md:w-1/2 flex justify-center">
-            <Image
-              src={images.doc} // Replace with actual image
-              alt="Dr. Nah Sekey"
-              width={500}
-              height={500}
-              className="rounded-xl shadow-md object-cover"
-            />
-          </div>
-          <div className="w-full md:w-1/2">
-            <h2 className="text-3xl font-bold text-blue-900 mb-4 text-center">Meet Dr. Nah Sekey</h2>
-            <p className="text-gray-700 text-lg leading-relaxed text-center">
-              Dr. Nah Sekey is a renowned nephrologist with over 15 years of experience in kidney care and internal medicine. His passion for personalized treatment and dedication to patient wellbeing led him to found the Nah-Sekey Renal Institute — a clinic built on trust, innovation, and excellence in kidney health.
-            </p>
-            <p className="text-gray-700 mt-4 text-sm italic">
-            &ldquo;I believe in delivering care that sees the whole person - not just the disease.&rdquo;
-            </p>
-          </div>
-        </div>
+        <div className="max-w-6xl mx-auto text-center">
+          <h2 className="text-3xl font-bold text-primary mb-10">Our Impact</h2>
+          <div className="max-w-5xl mx-auto grid grid-cols-2 sm:grid-cols-4 gap-8">
+              <StatItem value={15} label="Years of Experience" />
+              <StatItem value={500} label="Patients Treated" />
+              <StatItem value={98} label="Patient Satisfaction" />
+              <StatItem value={24} label="Support Available (hrs)" />
+            </div>
+      </div>
       </section>
+
       <section className="bg-gray-50 py-20 px-6 md:px-20 lg:px-32">
         <div className="max-w-6xl mx-auto text-center">
           <h2 className="text-3xl font-bold text-blue-900 mb-10">What Our Patients Say</h2>
@@ -328,18 +341,79 @@ export default function Home() {
           </div>
         </div>
       </section>
-      <section className="bg-white py-20 px-6 md:px-20 lg:px-32">
-        <div className="max-w-6xl mx-auto text-center">
-          <h2 className="text-3xl font-bold text-blue-900 mb-10">Our Impact</h2>
-          <div className="max-w-5xl mx-auto grid grid-cols-2 sm:grid-cols-4 gap-8">
-              <StatItem value={15} label="Years of Experience" />
-              <StatItem value={500} label="Patients Treated" />
-              <StatItem value={98} label="Patient Satisfaction" />
-              <StatItem value={24} label="Support Available (hrs)" />
+
+      <section className="bg-gray-200 pt-16 z-1">
+      <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-between md:px-4 ">
+
+        <ScrollAnimation animation="slideLeft" delay={100} distance={300} duration={2} threshold={0} className="w-full">
+            <div className="relative w-full h-120 overflow-hidden flex justify-end">
+              <div className="absolute top-0 left-0 w-full h-full flex flex-col justify-center pt-12 px-8">
+                <p>Book an</p>
+                <p className="text-3xl sm:text-5xl font-bold text-primary">Appointment for <br></br>Consultation</p>
+                <p>with our expert Nephrologist</p>
+                <Link
+                  href="/appointment"
+            
+                >
+                  <motion.li
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.9 }}
+                    transition={{ type: "spring", stiffness: 400, damping: 10 }}
+                    className="text-lg sm:text-lg px-6 mt-2 py-3 md:text-xl md:px-6 md:py-3 inline-block bg-white text-primary font-semibold rounded-2xl hover:bg-gray-100 shadow-md"
+                  >
+                    Read more
+                  </motion.li>
+          </Link>
+              </div>
+              <div>
+                <Image src={images.nurse} alt="nurse" width={500} height={500}/>
+              </div>
             </div>
+        </ScrollAnimation>
+       
+        <ScrollAnimation animation="slideRight" delay={100} distance={300} duration={2} threshold={0} className="w-full">
+          <div className="flex-1 bg-primary text-white p-6 py-8 rounded-3xl w-full max-w-3xl shadow-lg mb-[-20px] lg:max-w-lg md:mt-12">
+              <div className="flex justify-between items-center mb-4">
+                <h3 className="text-3xl font-semibold">FAQs</h3>
+                <Link
+                    href="/appointment"
+                  >
+                  <motion.li
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.9 }}
+                    transition={{ type: "spring", stiffness: 400, damping: 10 }}
+                    className="text-lg sm:text-lg px-6 mt-2 py-3 md:text-xl md:px-6 md:py-3 inline-block bg-white text-primary font-semibold rounded-2xl hover:bg-gray-100 shadow-md"
+                  >
+                    View All
+                  </motion.li>
+                </Link>
+              </div>
+              <ul className="space-y-2">
+                {[
+                  "Am I awake while undergoing dialysis treatment?",
+                  "How does dialysis work?",
+                  "Can dialysis help my kidneys recover their function?",
+                  "What is the typical duration of a hemodialysis treatment?",
+                  "Are home-based dialysis treatments available at Amarobby?",
+                  "What is the fee for seeing a kidney specialist?",
+                ].map((question, index) => (
+                  <li
+                    key={index}
+                    className={`p-2 rounded-lg ${
+                      index % 2 === 0 ? "bg-primary/60" : ""
+                    }`}
+                  >
+                    <span className="text-base text-black hover:text-white cursor-pointer">›  {question}</span>
+                  </li>
+                ))}
+              </ul>
+          </div>
+        </ScrollAnimation>
+        
       </div>
-      </section>
-      <section className="bg-blue-900 py-20 px-6 md:px-20 lg:px-32 text-white ">
+    </section>
+     
+      {/* <section className="bg-blue-900 py-20 px-6 md:px-20 lg:px-32 text-white ">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-6">Ready to Take Control of Your Kidney Health?</h2>
           <p className="text-lg mb-8">Book a consultation today and experience world-class care tailored to you.</p>
@@ -349,8 +423,8 @@ export default function Home() {
             </button>
           </Link>
         </div>
-      </section>
-      <section className="bg-blue-900 text-white py-16 px-6 md:px-20 lg:px-32">         
+      </section> */}
+      <section className="bg-blue-200 text-white py-16 px-6 md:px-20 lg:px-32 z-0">         
       </section>
     </div>
   );

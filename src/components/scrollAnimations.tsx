@@ -8,50 +8,66 @@ type AnimationPreset = {
   visible: Record<string, any>;
 };
 
-const animationPresets: Record<string, AnimationPreset> = {
-  fade: {
-    hidden: { opacity: 0 },
-    visible: { opacity: 1 }
-  },
-  slideLeft: {
-    hidden: { opacity: 0, x: -100 },
-    visible: { opacity: 1, x: 0 }
-  },
-  slideRight: {
-    hidden: { opacity: 0, x: 100 },
-    visible: { opacity: 1, x: 0 }
-  },
-  slideUp: {
-    hidden: { opacity: 0, y: 50 },
-    visible: { opacity: 1, y: 0 }
-  },
-  slideDown: {
-    hidden: { opacity: 0, y: -50 },
-    visible: { opacity: 1, y: 0 }
-  },
-  zoom: {
-    hidden: { opacity: 0, scale: 0.9 },
-    visible: { opacity: 1, scale: 1 }
-  },
-  flipX: {
-    hidden: { opacity: 0, rotateX: 90 },
-    visible: { opacity: 1, rotateX: 0 }
-  },
-  flipY: {
-    hidden: { opacity: 0, rotateY: 90 },
-    visible: { opacity: 1, rotateY: 0 }
-  },
-  bounce: {
-    hidden: { opacity: 0, y: 50 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        type: 'spring',
-        stiffness: 300,
-        damping: 10
-      }
-    }
+const getAnimationPresets = (animation: string, distance: number): AnimationPreset => {
+  switch (animation) {
+    case 'fade':
+      return {
+        hidden: { opacity: 0 },
+        visible: { opacity: 1 }
+      };
+    case 'slideLeft':
+      return {
+        hidden: { opacity: 0, x: -distance },
+        visible: { opacity: 1, x: 0 }
+      };
+    case 'slideRight':
+      return {
+        hidden: { opacity: 0, x: distance },
+        visible: { opacity: 1, x: 0 }
+      };
+    case 'slideUp':
+      return {
+        hidden: { opacity: 0, y: distance },
+        visible: { opacity: 1, y: 0 }
+      };
+    case 'slideDown':
+      return {
+        hidden: { opacity: 0, y: -distance },
+        visible: { opacity: 1, y: 0 }
+      };
+    case 'zoom':
+      return {
+        hidden: { opacity: 0, scale: 0.5 },
+        visible: { opacity: 1, scale: 1 }
+      };
+    case 'flipX':
+      return {
+        hidden: { opacity: 0, rotateX: 120 },
+        visible: { opacity: 1, rotateX: 0 }
+      };
+    case 'flipY':
+      return {
+        hidden: { opacity: 0, rotateY: 120 },
+        visible: { opacity: 1, rotateY: 0 }
+      };
+    case 'bounce':
+      return {
+        hidden: { opacity: 0, y: distance },
+        visible: {
+          opacity: 1,
+          y: 0,
+          transition: {
+            type: 'spring',
+            stiffness: 300,
+            damping: 20
+          }
+        }
+      };
+    default:
+      return {
+        hidden: { opacity: 0, y: distance },
+        visible: { opacity: 1, y: 0 }
+      };
   }
 };
 
@@ -62,7 +78,7 @@ export default function ScrollAnimation({
   duration = 0.6,
   className = '',
   threshold = 0.1,
-  distance = 100,
+  distance = 150,
   once = true
 }: {
   children: React.ReactNode;
@@ -92,34 +108,23 @@ export default function ScrollAnimation({
     return () => observer.disconnect();
   }, [controls, threshold, once]);
 
-  const getVariants = () => {
-    if (animationPresets[animation]) return animationPresets[animation];
-    
-    // Handle custom distance for slide animations
-    if (animation.startsWith('slide')) {
-      const direction = animation.replace('slide', '').toLowerCase();
-      return {
-        hidden: { opacity: 0, [direction === 'left' || direction === 'right' ? 'x' : 'y']: 
-          direction === 'left' || direction === 'up' ? -distance : distance },
-        visible: { opacity: 1, [direction === 'left' || direction === 'right' ? 'x' : 'y']: 0 }
-      };
-    }
-
-    return animationPresets.fade;
-  };
+  const variants = getAnimationPresets(animation, distance);
 
   return (
     <motion.div
       ref={ref}
       initial="hidden"
       animate={controls}
-      variants={getVariants()}
+      variants={variants}
       transition={{
         delay: delay / 1000,
         duration,
-        ease: [0.16, 1, 0.3, 1]
+        ease: [0.6, -0.05, 0.01, 0.99] // custom easeOutBack curve
       }}
       className={className}
+      style={{
+        transformOrigin: 'center'
+      }}
     >
       {children}
     </motion.div>

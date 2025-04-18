@@ -56,7 +56,7 @@ const Header = () => {
                           backgroundColor: isActive ? 'white' : 'transparent',
                         }}
                         style={{ height: 'fit-content' }}
-                        className={`flex items-center gap-2 rounded-md px-3 py-2 ${
+                        className={`flex items-center gap-2 rounded-lg px-3 py-2 ${
                           isActive && 'backdrop-blur-lg bg-white/20'
                         }`}
                       >
@@ -115,7 +115,7 @@ const Header = () => {
           </ul>
         </div>
         <div className="rest flex items-center justify-center">
-          <button className='bg-primary-100 py-2 px-4 rounded-xl font-semibold hover:bg-primary hover:text-white transition duration-1000 ease-in-out'>
+          <button className='bg-blue-200 py-2 px-4 rounded-xl font-semibold hover:bg-blue-400 hover:text-white transition duration-500 ease-in-out'>
             Book Appointment
           </button>
         </div>

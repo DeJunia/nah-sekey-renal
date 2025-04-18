@@ -1,5 +1,6 @@
 import bg1 from '@/assets/images/background.jpg'
 import bg2 from '@/assets/images/background2.jpg'
+import nurse from '@/assets/images/nurse.png'
 import logo from '@/assets/images/logo.png'
 import logo1 from '@/assets/images/logo2.jpg'
 import img from '@/assets/images/img.jpg'
@@ -23,6 +24,7 @@ export default {
   img1,
   img2,
   img3,
+  nurse,
   doc,
   imgd1,
   imgd2,
